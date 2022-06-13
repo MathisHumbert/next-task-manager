@@ -1,5 +1,11 @@
 @import './base/reset';
 
 @import './utils/variables';
+@import './utils/bodys';
+@import './utils/headings';
 
+@import './base/base';
 @import './base/fonts';
+
+@import './layout/navbar';
+@import './layout/board_aside';
