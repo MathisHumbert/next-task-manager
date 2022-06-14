@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -17,11 +17,27 @@ const board = [
   },
 ];
 
-export default function BoardAside() {
+export default function BoardModal({ close, isVisible }) {
   const board_id = 1;
 
+  useEffect(() => {
+    if (!isVisible) {
+      document.body.classList.remove('fixed');
+    } else {
+      document.body.classList.add('fixed');
+    }
+  }, [isVisible]);
+
+  const handleClick = (e) => {
+    if (!e.target.classList.contains('board__modal')) return;
+    close();
+  };
+
   return (
-    <aside className='board__aside '>
+    <div
+      className={isVisible ? 'board__modal open' : 'board__modal'}
+      onClick={handleClick}
+    >
       <div className='board__container'>
         <p className='board__numbers'>all boards ({board.length})</p>
         <div className='board__items'>
@@ -71,6 +87,6 @@ export default function BoardAside() {
           />
         </div>
       </div>
-    </aside>
+    </div>
   );
 }

@@ -3,10 +3,16 @@
 @import './utils/variables';
 @import './utils/bodys';
 @import './utils/headings';
+@import './utils/buttons';
+@import './utils/inputs';
 
 @import './base/base';
 @import './base/fonts';
 
 @import './layout/navbar';
-@import './layout/board_aside';
-@import './layout/edit_aside';
+@import './layout/modal';
+@import './layout/board_modal';
+@import './layout/edit_dropdown';
+@import './layout/empty';
+
+@import './pages/home/home';

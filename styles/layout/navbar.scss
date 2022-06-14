@@ -16,6 +16,10 @@
   @extend %heading-l;
 
   display: none;
+
+  &.show {
+    display: block;
+  }
 }
 
 .navbar__dropdown {
@@ -23,6 +27,10 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
+
+  &.hide {
+    display: none;
+  }
 }
 
 .navbar__dropdown__title {

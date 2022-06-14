@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-import BoardAside from './BoardAside';
-import EditAside from './EditAside';
+import BoardModal from './BoardModal';
+import EditDropdown from './EditDropdown';
 
 export default function Navbar() {
+  const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
+  const [isEditDropdownOpen, setIsEditDropdownOpen] = useState(false);
+  const { pathname } = useRouter();
+
   return (
     <>
       <nav className='navbar'>
@@ -25,45 +30,71 @@ export default function Navbar() {
           {/* board name */}
           <h2 className='navbar__title'>home</h2>
           {/* board name input */}
-          <div className='navbar__dropdown'>
-            <h2 className='navbar__dropdown__title'>home</h2>
-            <Image
-              src='/assets/icon-chevron-down.svg'
-              width={10}
-              height={7}
-              position='fixed'
-              alt='chevron-down'
-            />
+          <div
+            className='navbar__dropdown'
+            onClick={() => setIsBoardModalOpen(!isBoardModalOpen)}
+          >
+            <h2 className='navbar__dropdown__title'>
+              {pathname === '/' ? 'Choose your board' : 'Board'}
+            </h2>
+            {isBoardModalOpen ? (
+              <Image
+                src='/assets/icon-chevron-up.svg'
+                width={10}
+                height={7}
+                position='fixed'
+                alt='chevron-up'
+              />
+            ) : (
+              <Image
+                src='/assets/icon-chevron-down.svg'
+                width={10}
+                height={7}
+                position='fixed'
+                alt='chevron-down'
+              />
+            )}
           </div>
         </div>
-        <div className='navbar__container'>
-          {/* add new task button */}
-          <button className='navbar__add__button'>
-            <Image
-              src='/assets/icon-add-task-mobile.svg'
-              width={12}
-              height={12}
-              position='fixed'
-              alt='chevron-down'
-              className='navbar__add__icon'
-            />
-            <h3 className='navbar__add__text'>+ Add New Task</h3>
-          </button>
-          {/* board button */}
-          <button className='navbar__edit__buton'>
-            <Image
-              src='/assets/icon-vertical-ellipsis.svg'
-              width={5}
-              height={20}
-              position='fixed'
-              alt='chevron-down'
-              className='navbar__dropdown__icon'
-            />
-          </button>
-        </div>
+        {pathname !== '/' && (
+          <div className='navbar__container'>
+            {/* add new task button */}
+            <button className='navbar__add__button'>
+              <Image
+                src='/assets/icon-add-task-mobile.svg'
+                width={12}
+                height={12}
+                position='fixed'
+                alt='chevron-down'
+                className='navbar__add__icon'
+              />
+              <h3 className='navbar__add__text'>+ Add New Task</h3>
+            </button>
+            {/* board button */}
+            <button
+              className='navbar__edit__buton'
+              onClick={() => setIsEditDropdownOpen(!isEditDropdownOpen)}
+            >
+              <Image
+                src='/assets/icon-vertical-ellipsis.svg'
+                width={5}
+                height={20}
+                position='fixed'
+                alt='vertical-ellipsis'
+                className='navbar__dropdown__icon'
+              />
+            </button>
+          </div>
+        )}
       </nav>
-      <BoardAside />
-      <EditAside />
+      <BoardModal
+        isVisible={isBoardModalOpen}
+        close={() => setIsBoardModalOpen(false)}
+      />
+      <EditDropdown
+        isVisible={isEditDropdownOpen}
+        close={() => setIsEditDropdownOpen(false)}
+      />
     </>
   );
 }

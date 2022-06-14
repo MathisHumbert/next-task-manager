@@ -1,12 +1,15 @@
-.board__aside {
+.board__modal {
   position: fixed;
-  top: 0;
+  left: 0;
+  top: 64px;
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
-  background-color: rgba(0, 0, 0, 0.5);
-  cursor: pointer;
+  z-index: 1;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
   display: none;
+
+  cursor: pointer;
 
   &.open {
     display: block;
@@ -14,12 +17,13 @@
 }
 
 .board__container {
+  top: 16px;
   position: absolute;
-  top: 80px;
   left: 54px;
   background: $color-white;
   padding: 16px 0;
   border-radius: 8px;
+  cursor: auto;
 }
 
 .board__numbers {
