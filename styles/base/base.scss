@@ -7,6 +7,7 @@
 body {
   font-family: $font-jakarta;
   height: 200vh;
+  background: $color-light-gray;
 }
 
 button {
@@ -16,4 +17,9 @@ button {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }

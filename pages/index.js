@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import BoardAside from '../components/Navbar/BoardAside';
+
 import Navbar from '../components/Navbar/Navbar';
 
 export default function Home() {
@@ -11,7 +11,6 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Navbar />
-      <BoardAside />
       <p>lorem100</p>
     </div>
   );
