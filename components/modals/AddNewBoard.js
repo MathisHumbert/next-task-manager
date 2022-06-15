@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Image from 'next/image';
 import uniqid from 'uniqid';
+import axios from 'axios';
 
 import { toggleNewBoard } from '../../features/modal/modalSlice';
 import Modal from '../shared/Modal';
 
 export default function AddNewBoard() {
-  const [board, setBoard] = useState([]);
+  const [columns, setColumns] = useState([]);
   const [boardName, setBoardName] = useState('');
   const { isAddNewBoardOpen } = useSelector((store) => store.modal);
   const dispatch = useDispatch();
@@ -15,43 +16,46 @@ export default function AddNewBoard() {
   useEffect(() => {
     if (!isAddNewBoardOpen) return;
 
-    setBoard([
-      { title: 'To Do', id: uniqid() },
-      { title: 'Doing', id: uniqid() },
-      { title: 'Done', id: uniqid() },
+    setColumns([
+      { name: 'To Do', id: uniqid() },
+      { name: 'Doing', id: uniqid() },
     ]);
   }, [isAddNewBoardOpen]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // create a new board
+  const handleSubmit = async () => {
+    try {
+      await axios.put('/api/board', { name: boardName, columns });
+      dispatch(toggleNewBoard());
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (e) => {
     const { value, id } = e.target;
 
-    const newBoard = board.reduce((acc, curr) => {
+    const newColumns = columns.reduce((acc, curr) => {
       if (curr.id === id) {
-        return [...acc, { title: value, id: curr.id }];
+        return [...acc, { name: value, id: curr.id }];
       }
       return [...acc, curr];
     }, []);
 
-    setBoard(newBoard);
+    setColumns(newColumns);
   };
 
   const deleteColumn = (id) => {
-    const newBoard = board.reduce((acc, curr) => {
+    const newColumns = columns.reduce((acc, curr) => {
       if (curr.id === id) {
         return acc;
       }
       return [...acc, curr];
     }, []);
 
-    setBoard(newBoard);
+    setColumns(newColumns);
   };
 
-  const addColumn = () => setBoard([...board, { title: '', id: uniqid() }]);
+  const addColumn = () => setColumns([...columns, { name: '', id: uniqid() }]);
 
   return (
     <Modal
@@ -72,13 +76,13 @@ export default function AddNewBoard() {
       <div className='modal__group__container'>
         <label className='modal__label'>Board Columns</label>
         <div>
-          {board.map((item) => (
+          {columns.map((item) => (
             <div className='input__text__container' key={item.id}>
               <input
                 type='text'
                 className='modal__input__text'
                 id={item.id}
-                value={item.title}
+                value={item.name}
                 onChange={handleChange}
               />
               <button

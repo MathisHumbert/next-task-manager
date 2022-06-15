@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { connectToDatabase } from '../services/mongodb';
 
 import { toggleNewBoard } from '../features/modal/modalSlice';
 import HeadOfPage from '../components/shared/HeadOfPage';
 import EmptyState from '../components/shared/EmptyState';
 import AddNewBoard from '../components/modals/AddNewBoard';
-import DeleteTask from '../components/modals/DeleteTask';
-export default function Home() {
+
+export default function Home({ serverBoards }) {
   const boards = [];
   const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = await axios.get('/api/board');
+  //     console.log(data);
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  console.log(serverBoards);
 
   return (
     <HeadOfPage title='Home'>
@@ -24,31 +37,29 @@ export default function Home() {
         />
       )}
       <AddNewBoard />
-      <DeleteTask />
     </HeadOfPage>
   );
 }
 
-// export async function getServerSideProps(context) {
-//   // const session = await getSession(context);
+export async function getServerSideProps(context) {
+  // const session = await getSession(context);
 
-//   // if (!session) {
-//   //   return {
-//   //     redirect: {
-//   //       permanent: false,
-//   //       destination: '/register',
-//   //     },
-//   //   };
-//   // }
+  // if (!session) {
+  //   return {
+  //     redirect: {
+  //       permanent: false,
+  //       destination: '/register',
+  //     },
+  //   };
+  // }
 
-//   const { db } = await connectToDatabase();
-//   const boards = await db.collection('boards').find().toArray();
-//   console.log(boards);
+  const { db } = await connectToDatabase();
+  const boards = await db.collection('board').find().toArray();
 
-//   return {
-//     props: {
-//       // session,
-//       serverBoards: boards,
-//     },
-//   };
-// }
+  return {
+    props: {
+      // session,
+      serverBoards: boards,
+    },
+  };
+}
