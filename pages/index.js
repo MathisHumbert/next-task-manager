@@ -8,6 +8,8 @@ import HeadOfPage from '../components/shared/HeadOfPage';
 import EmptyState from '../components/shared/EmptyState';
 import AddNewBoard from '../components/modals/AddNewBoard';
 
+// test gits
+
 export default function Home({ serverBoards }) {
   const boards = [];
   const dispatch = useDispatch();
