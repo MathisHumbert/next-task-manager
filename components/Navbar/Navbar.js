@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { toggleNewTask } from '../../features/modal/modalSlice';
 import BoardModal from './BoardModal';
 import EditDropdown from './EditDropdown';
 
-export default function Navbar() {
+export default function Navbar({ boards }) {
   const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
   const [isEditDropdownOpen, setIsEditDropdownOpen] = useState(false);
   const { pathname } = useRouter();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -59,7 +62,10 @@ export default function Navbar() {
         {pathname !== '/' && (
           <div className='navbar__container'>
             {/* add new task button */}
-            <button className='navbar__add__button'>
+            <button
+              className='navbar__add__button'
+              onClick={() => dispatch(toggleNewTask())}
+            >
               <Image
                 src='/assets/icon-add-task-mobile.svg'
                 width={12}
@@ -90,6 +96,7 @@ export default function Navbar() {
       <BoardModal
         isVisible={isBoardModalOpen}
         close={() => setIsBoardModalOpen(false)}
+        boards={boards}
       />
       <EditDropdown
         isVisible={isEditDropdownOpen}

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isAddNewBoardOpen: false,
+  isAddNewTaskOpen: false,
   isEditBoardOpen: false,
   isDeleteBoardOpen: false,
   isDeleteTaskOpen: false,
@@ -13,6 +14,9 @@ export const modalSlice = createSlice({
   reducers: {
     toggleNewBoard: (state) => {
       state.isAddNewBoardOpen = !state.isAddNewBoardOpen;
+    },
+    toggleNewTask: (state) => {
+      state.isAddNewTaskOpen = !state.isAddNewTaskOpen;
     },
     toggleEditBoard: (state) => {
       state.isEditBoardOpen = !state.isEditBoardOpen;
@@ -28,6 +32,7 @@ export const modalSlice = createSlice({
 
 export const {
   toggleNewBoard,
+  toggleNewTask,
   toggleEditBoard,
   toggleDeleteBoard,
   toggleDeleteTask,

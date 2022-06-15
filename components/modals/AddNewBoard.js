@@ -24,7 +24,7 @@ export default function AddNewBoard() {
 
   const handleSubmit = async () => {
     try {
-      await axios.put('/api/board', { name: boardName, columns });
+      await axios.post('/api/board', { name: boardName, columns });
       dispatch(toggleNewBoard());
     } catch (error) {
       console.log(error);

@@ -1,24 +1,14 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const board = [
-  {
-    _id: 1,
-    name: 'Platform Launch',
-  },
-  {
-    _id: 2,
-    name: 'Marketing Plan',
-  },
-  {
-    _id: 3,
-    name: 'Roadmap',
-  },
-];
+import { toggleNewBoard } from '../../features/modal/modalSlice';
 
-export default function BoardModal({ close, isVisible }) {
-  const board_id = 1;
+export default function BoardModal({ boards, close, isVisible }) {
+  const dispatch = useDispatch();
+  const { pathname } = useRouter();
 
   useEffect(() => {
     if (!isVisible) {
@@ -28,25 +18,32 @@ export default function BoardModal({ close, isVisible }) {
     }
   }, [isVisible]);
 
-  const handleClick = (e) => {
+  const handleCloseModal = (e) => {
     if (!e.target.classList.contains('board__modal')) return;
     close();
+  };
+
+  const handleCreateNewBoard = () => {
+    close();
+    dispatch(toggleNewBoard());
   };
 
   return (
     <div
       className={isVisible ? 'board__modal open' : 'board__modal'}
-      onClick={handleClick}
+      onClick={handleCloseModal}
     >
       <div className='board__container'>
-        <p className='board__numbers'>all boards ({board.length})</p>
+        <p className='board__numbers'>all boards ({boards.length})</p>
         <div className='board__items'>
-          {board.map((item) => (
+          {boards.map((item) => (
             <Link href={`/board/${item._id}`} passHref key={item._id}>
               <a>
                 <div
                   className={
-                    item._id === board_id ? 'board__item active' : 'board__item'
+                    pathname.includes(item._id)
+                      ? 'board__item active'
+                      : 'board__item'
                   }
                 >
                   <Image
@@ -61,7 +58,10 @@ export default function BoardModal({ close, isVisible }) {
               </a>
             </Link>
           ))}
-          <button className='board__items_button'>
+          <button
+            className='board__items_button'
+            onClick={handleCreateNewBoard}
+          >
             <Image
               src='/assets/icon-board.svg'
               width={16}

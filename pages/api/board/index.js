@@ -10,12 +10,11 @@ export default async function handler(req, res) {
     res.status(200).json(boards);
   }
 
-  if (method === 'PUT') {
+  if (method === 'POST') {
     const { name, columns } = body;
 
     const new_columns = columns.map((item) => ({
       name: item.name,
-      tasks: [],
       _id: uniqid(),
     }));
 

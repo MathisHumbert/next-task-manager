@@ -1,33 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import { connectToDatabase } from '../services/mongodb';
 
 import { toggleNewBoard } from '../features/modal/modalSlice';
 import HeadOfPage from '../components/shared/HeadOfPage';
+import Navbar from '../components/Navbar/Navbar';
 import EmptyState from '../components/shared/EmptyState';
 import AddNewBoard from '../components/modals/AddNewBoard';
 
 // test gits
 
 export default function Home({ serverBoards }) {
-  const boards = [];
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await axios.get('/api/board');
-  //     console.log(data);
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  console.log(serverBoards);
 
   return (
     <HeadOfPage title='Home'>
-      {boards.length ? (
+      <Navbar boards={serverBoards} />
+      {serverBoards.length ? (
         <main className='home'>
           <h1 className='home__title'>Choose the board that you want to see</h1>
         </main>
