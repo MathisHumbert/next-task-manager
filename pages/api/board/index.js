@@ -22,17 +22,12 @@ export default async function handler(req, res) {
       _id: uniqid(),
       board_id,
       name: item.name,
-      tasks: [],
     }));
 
-    const board = await db
-      .collection('board')
-      .insertOne({ _id: board_id, name });
+    await db.collection('board').insertOne({ _id: board_id, name });
 
-    const columnsAdded = await db.collection('column').insertMany(columns);
+    await db.collection('column').insertMany(columns);
 
-    // const tasks = await db.collection('')
-
-    res.status(200).json({ board, columns: columnsAdded });
+    res.status(200).json('board created');
   }
 }

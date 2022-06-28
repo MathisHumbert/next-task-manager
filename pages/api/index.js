@@ -7,14 +7,12 @@ export default function handler(req, res) {
 // board: {
 //   _id: id,
 //   name: '',
-//   columns: [id, id],
 // }
 
 // column: {
 //  _id: id,
 //  board_id: id,
 //  name: '',
-//  tasks: [id, id],
 // }
 
 // task: {
