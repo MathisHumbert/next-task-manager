@@ -11,7 +11,14 @@ export default async function handler(req, res) {
 
     const board = await db.collection('board').find({ _id: id }).toArray();
 
-    res.status(200).json(board);
+    const columns = await db
+      .collection('column')
+      .find({ board_id: id })
+      .toArray();
+
+    const tasks = await db.collection('task').find({ board_id: id }).toArray();
+
+    res.status(200).json({ board, columns, tasks });
   }
 
   if (method === 'PATCH') {

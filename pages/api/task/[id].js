@@ -5,13 +5,6 @@ export default async function handler() {
   const { method, query, body } = req;
   const { db } = await connectToDatabase();
 
-  if (method === 'GET') {
-    const { id: boardId } = query;
-    const board = await db.collection('task').find({ boardId }).toArray();
-    console.log(board);
-    res.status(200).json(board);
-  }
-
   if (method === 'POST') {
     const { name, columns } = body;
 

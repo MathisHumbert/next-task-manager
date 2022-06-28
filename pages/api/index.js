@@ -26,3 +26,8 @@ export default function handler(req, res) {
 //   title: '',
 //   subtasks: [{}, {}, {}],
 // }
+
+// subtask: {
+//   title: ',
+//   isCompleted: false,
+// }
