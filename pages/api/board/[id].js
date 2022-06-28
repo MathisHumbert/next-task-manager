@@ -5,22 +5,32 @@ export default async function handler(req, res) {
   const { method, query, body } = req;
   const { db } = await connectToDatabase();
 
+  // get a single board
   if (method === 'GET') {
-    const { _id } = query;
-    const board = await db.collection('board').find({ _id }).toArray();
+    const { id } = query;
+
+    const board = await db.collection('board').find({ _id: id }).toArray();
+
     res.status(200).json(board);
   }
 
   if (method === 'PATCH') {
-    const { title, description, status, tasks } = body;
-    const task = {
-      status: status.name,
-      title,
-      description,
-      tasks,
-    };
+  }
 
-    console.log(task);
-    res.status(200).json({ message: 'Board added to collection' });
+  // delete a board and all of his tasks
+  if (method === 'DELETE') {
+    const { id } = query;
+
+    const board = await db.collection('board').deleteOne({ _id: id });
+
+    const tasks = await db.collection('task').deleteMany({ boardId: id });
+
+    res.status(200).json(board, tasks);
   }
 }
+
+// board: {
+//   _id: 'id',
+//   name: '',
+//   columns: ['', '']
+// }

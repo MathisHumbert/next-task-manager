@@ -5,40 +5,30 @@ export default async function handler(req, res) {
   const { method, query, body } = req;
   const { db } = await connectToDatabase();
 
+  // get all boards
   if (method === 'GET') {
     const boards = await db.collection('board').find().toArray();
+
     res.status(200).json(boards);
   }
 
+  // create new board
   if (method === 'POST') {
-    const { name, columns } = body;
+    const { name, board_columns } = body;
 
-    const new_columns = columns.map((item) => ({
-      name: item.name,
+    const board_id = uniqid();
+
+    const columns = board_columns.map((item) => ({
       _id: uniqid(),
+      board_id,
+      name: item.name,
+      tasks: [],
     }));
 
-    await db
-      .collection('board')
-      .insertOne({ _id: uniqid(), name, columns: new_columns });
+    await db.collection('board').insertOne({ _id: board_id, name });
+
+    await db.collections('column').insertMany(columns);
 
     res.status(200).json({ message: 'Board added to collection' });
   }
 }
-
-// board: {
-//   name: '',
-//   _id: 'id',
-//   columns: ['', '']
-// }
-
-// task: {
-//   _id: 'id'
-//   board_id: 'id'
-//   status: 'colunm name',
-//   description: '',
-//   title: '',
-//   subtasks: [
-
-//   ]
-// }
